@@ -100,4 +100,41 @@ class Spam_Blocker_Public {
 
 	}
 
+	/**
+     * Styles for comment section.
+     *
+     * @since    1.0.0
+     */
+    public function comment_style() {
+       echo "<style>
+       			.required-dz{
+       				display:none !important;
+       			}
+       		</style>";
+    }
+
+	/**
+	 * Add input field (Honeypot)
+	 */
+	public function honeypot_comment_form () {
+		?>
+			<div class="required-dz">
+				<input autocomplete="off" name="comment-form-area" type="text" value=""/>
+			</div>
+		<?php
+	}
+
+
+	/**
+	 * Check spam for WP comments
+	 * @param  Array $commentdata
+	 * @return $commentdata| wp_die
+	 */
+	public function honeypot_preprocess_comment($commentdata) {
+	if( strlen( $_POST['comment-form-area'] ) > 0 ) {
+			wp_die(__('<strong>ERROR</strong>: Spam detected', 'spam-blocker'));
+		} else {
+			return $commentdata;
+		}
+	}
 }

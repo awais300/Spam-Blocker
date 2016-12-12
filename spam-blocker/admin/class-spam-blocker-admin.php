@@ -97,7 +97,100 @@ class Spam_Blocker_Admin {
 		 */
 
 		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/spam-blocker-admin.js', array( 'jquery' ), $this->version, false );
-
 	}
+
+
+
+	/**
+     * Styles on login page.
+     *
+     * @since    1.0.0
+     */
+    public function loginpage_style() {
+       echo "<style>
+       			.required-dz{
+       				display:none !important;
+       			}
+       		</style>";
+    }
+
+
+
+    /**
+     *
+     * @since  1.0.0
+     */
+    public function admin_left_menu() {
+        add_menu_page(
+            __('Spam Blocker', 'spam-blocker'),
+            __('Spam Blocker', 'spam-blocker'),
+            'manage_options',
+            $this->plugin_name,
+            array($this, 'admin_page_view'),
+            plugin_dir_url(dirname(__FILE__)) . 'menu_icon.png',
+            80
+        );
+    }
+
+
+
+    /**
+     * Admin view page
+     */
+    public function admin_page_view() {
+
+		$message               = '';
+        $honeypot_options      = get_option('dz-honeypot-options');
+
+    	if (!empty($_POST)) {
+    		if($_POST['form'] == 'honeypot-form') {
+    			if (isset($_POST['honeypot-comments']) && $_POST['honeypot-comments'] == 'on') {
+                    $honeypot_options['honeypot-comments'] = true;
+                } else {
+                    $honeypot_options['honeypot-comments'] = false;
+                }
+
+                if (isset($_POST['honeypot-login']) && $_POST['honeypot-login'] == 'on') {
+                    $honeypot_options['honeypot-login'] = true;
+                } else {
+                    $honeypot_options['honeypot-login'] = false;
+                }
+                update_option('dz-honeypot-options', $honeypot_options, false);
+                $message = 'Settings Saved';
+    		}
+    	}
+
+    	include_once('partials/spam-blocker-admin-display.php');
+    }
+
+
+
+    /**
+     * Add input field (Honeypot)
+     */
+    public function honeypot_login_form() {
+        ?>
+			<div class="required-dz">
+			    <input autocomplete="off" name="login-form-area" type="text" value=""/>
+			</div>
+		<?php
+	}
+
+
+
+    /**
+     * Check oneypot field at login page
+     * @param  string $user
+     * @param  string $password
+     * @return $user | WP_Error
+     */
+    public function honeypot_wp_authenticate_user($user, $password) {
+        if (strlen($_POST['login-form-area']) > 0) {
+            global $error;
+            return new WP_Error('dz-honeypot', __('<strong>ERROR</strong>: Spammer detected', 'spam-blocker'));
+        } else {
+            return $user;
+        }
+    }
 
 }

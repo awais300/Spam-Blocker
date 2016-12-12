@@ -23,14 +23,12 @@
 class Spam_Blocker_Deactivator {
 
 	/**
-	 * Short Description. (use period)
-	 *
-	 * Long Description.
+	 * Remove saved settings from database.
 	 *
 	 * @since    1.0.0
 	 */
 	public static function deactivate() {
-
+		delete_option('dz-honeypot-options');
 	}
 
 }

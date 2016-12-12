@@ -23,14 +23,20 @@
 class Spam_Blocker_Activator {
 
 	/**
-	 * Short Description. (use period)
+	 * Save default settings in options page.
 	 *
 	 * Long Description.
 	 *
 	 * @since    1.0.0
 	 */
 	public static function activate() {
-
+		$options = get_option('dz-honeypot-options');
+		if(empty($options)) {
+			$default = array(
+				'honeypot-login' => true,
+				'honeypot-comments' => true
+			);
+			update_option('dz-honeypot-options', $default, false);
+		}
 	}
-
 }
