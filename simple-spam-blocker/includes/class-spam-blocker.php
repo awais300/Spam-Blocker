@@ -6,7 +6,7 @@
  * A class definition that includes attributes and functions used across both the
  * public-facing side of the site and the admin area.
  *
- * @link       http://awais.example.com/
+ * @link       awais300@gmail.com
  * @since      1.0.0
  *
  * @package    Spam_Blocker
@@ -25,7 +25,7 @@
  * @since      1.0.0
  * @package    Spam_Blocker
  * @subpackage Spam_Blocker/includes
- * @author     Awais M <awais300@gmail.com>
+ * @author     Awais <awais300@gmail.com>
  */
 class Spam_Blocker {
 
@@ -67,9 +67,12 @@ class Spam_Blocker {
 	 * @since    1.0.0
 	 */
 	public function __construct() {
-
+		if ( defined( 'SPAM_BLOCKER_VERSION' ) ) {
+			$this->version = SPAM_BLOCKER_VERSION;
+		} else {
+			$this->version = '1.0.0';
+		}
 		$this->plugin_name = 'spam-blocker';
-		$this->version = '1.0.0';
 
 		$this->load_dependencies();
 		$this->set_locale();
@@ -151,15 +154,16 @@ class Spam_Blocker {
 
 		$plugin_admin = new Spam_Blocker_Admin( $this->get_plugin_name(), $this->get_version() );
 
-		//$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
-		//$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
+		// Can be used in future
+		$this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_styles' );
+		// $this->loader->add_action( 'admin_enqueue_scripts', $plugin_admin, 'enqueue_scripts' );
 
-		$this->loader->add_action( 'login_enqueue_scripts', $plugin_admin, 'loginpage_style');
+		$this->loader->add_action( 'login_enqueue_scripts', $plugin_admin, 'loginpage_style' );
 		$this->loader->add_action( 'admin_menu', $plugin_admin, 'admin_left_menu' );
-		$options = get_option('dz-honeypot-options');
-		if($options['honeypot-login'] == true) {
+		$options = get_option( 'awp-honeypot-options' );
+		if ( $options['honeypot-login'] == true ) {
 			$this->loader->add_action( 'login_form', $plugin_admin, 'honeypot_login_form' );
-			$this->loader->add_filter( 'wp_authenticate_user', $plugin_admin, 'honeypot_wp_authenticate_user', 10, 2);
+			$this->loader->add_filter( 'wp_authenticate_user', $plugin_admin, 'honeypot_wp_authenticate_user', 10, 2 );
 		}
 
 	}
@@ -175,12 +179,13 @@ class Spam_Blocker {
 
 		$plugin_public = new Spam_Blocker_Public( $this->get_plugin_name(), $this->get_version() );
 
-		//$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
-		//$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
+		// Can be used in future
+		// $this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_styles' );
+		// $this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'enqueue_scripts' );
 
-		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'comment_style');
-		$options = get_option('dz-honeypot-options');
-		if($options['honeypot-comments'] == true) {
+		$this->loader->add_action( 'wp_enqueue_scripts', $plugin_public, 'comment_style' );
+		$options = get_option( 'awp-honeypot-options' );
+		if ( $options['honeypot-comments'] == true ) {
 			$this->loader->add_action( 'comment_form', $plugin_public, 'honeypot_comment_form' );
 			$this->loader->add_filter( 'preprocess_comment', $plugin_public, 'honeypot_preprocess_comment', 10, 1 );
 		}

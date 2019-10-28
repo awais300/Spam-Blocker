@@ -19,7 +19,7 @@
  * For more information, see the following discussion:
  * https://github.com/tommcfarlin/WordPress-Plugin-Boilerplate/pull/123#issuecomment-28541913
  *
- * @link       http://awais.example.com/
+ * @link       awais300@gmail.com
  * @since      1.0.0
  *
  * @package    Spam_Blocker
@@ -29,3 +29,5 @@
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit;
 }
+
+delete_option( 'awp-honeypot-options' );

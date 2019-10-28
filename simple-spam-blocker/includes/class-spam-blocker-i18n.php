@@ -6,7 +6,7 @@
  * Loads and defines the internationalization files for this plugin
  * so that it is ready for translation.
  *
- * @link       http://awais.example.com/
+ * @link       awais300@gmail.com
  * @since      1.0.0
  *
  * @package    Spam_Blocker
@@ -22,7 +22,7 @@
  * @since      1.0.0
  * @package    Spam_Blocker
  * @subpackage Spam_Blocker/includes
- * @author     Awais M <awais300@gmail.com>
+ * @author     Awais <awais300@gmail.com>
  */
 class Spam_Blocker_i18n {
 

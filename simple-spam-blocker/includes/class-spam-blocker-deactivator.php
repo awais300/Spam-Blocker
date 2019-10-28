@@ -3,7 +3,7 @@
 /**
  * Fired during plugin deactivation
  *
- * @link       http://awais.example.com/
+ * @link       awais300@gmail.com
  * @since      1.0.0
  *
  * @package    Spam_Blocker
@@ -18,17 +18,19 @@
  * @since      1.0.0
  * @package    Spam_Blocker
  * @subpackage Spam_Blocker/includes
- * @author     Awais M <awais300@gmail.com>
+ * @author     Awais <awais300@gmail.com>
  */
 class Spam_Blocker_Deactivator {
 
 	/**
-	 * Remove saved settings from database.
+	 * Short Description. (use period)
+	 *
+	 * Long Description.
 	 *
 	 * @since    1.0.0
 	 */
 	public static function deactivate() {
-		delete_option('dz-honeypot-options');
+
 	}
 
 }

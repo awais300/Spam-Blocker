@@ -5,7 +5,7 @@
  *
  * This file is used to markup the public-facing aspects of the plugin.
  *
- * @link       http://awais.example.com/
+ * @link       awais300@gmail.com
  * @since      1.0.0
  *
  * @package    Spam_Blocker

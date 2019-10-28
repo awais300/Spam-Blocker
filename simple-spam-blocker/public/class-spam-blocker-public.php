@@ -3,7 +3,7 @@
 /**
  * The public-facing functionality of the plugin.
  *
- * @link       http://awais.example.com/
+ * @link       awais300@gmail.com
  * @since      1.0.0
  *
  * @package    Spam_Blocker
@@ -14,13 +14,14 @@
  * The public-facing functionality of the plugin.
  *
  * Defines the plugin name, version, and two examples hooks for how to
- * enqueue the admin-specific stylesheet and JavaScript.
+ * enqueue the public-facing stylesheet and JavaScript.
  *
  * @package    Spam_Blocker
  * @subpackage Spam_Blocker/public
- * @author     Awais M <awais300@gmail.com>
+ * @author     Awais <awais300@gmail.com>
  */
 class Spam_Blocker_Public {
+
 
 	/**
 	 * The ID of this plugin.
@@ -44,13 +45,13 @@ class Spam_Blocker_Public {
 	 * Initialize the class and set its properties.
 	 *
 	 * @since    1.0.0
-	 * @param      string    $plugin_name       The name of the plugin.
-	 * @param      string    $version    The version of this plugin.
+	 * @param      string $plugin_name       The name of the plugin.
+	 * @param      string $version    The version of this plugin.
 	 */
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
+		$this->version     = $version;
 
 	}
 
@@ -101,40 +102,47 @@ class Spam_Blocker_Public {
 	}
 
 	/**
-     * Styles for comment section.
-     *
-     * @since    1.0.0
-     */
-    public function comment_style() {
-       echo "<style>
-       			.required-dz{
+	 * Styles for comment section.
+	 *
+	 * @since    1.0.0
+	 */
+	public function comment_style() {
+		echo '<style>
+       			.required-awp{
        				display:none !important;
        			}
-       		</style>";
-    }
+       		</style>';
+	}
 
 	/**
 	 * Add input field (Honeypot)
 	 */
-	public function honeypot_comment_form () {
+	public function honeypot_comment_form() {
 		?>
-			<div class="required-dz">
+			<div class="required-awp">
 				<input autocomplete="off" name="comment-form-area" type="text" value=""/>
 			</div>
 		<?php
 	}
 
-
 	/**
 	 * Check spam for WP comments
+	 *
 	 * @param  Array $commentdata
 	 * @return $commentdata| wp_die
 	 */
-	public function honeypot_preprocess_comment($commentdata) {
-	if( strlen( $_POST['comment-form-area'] ) > 0 ) {
-			wp_die(__('<strong>ERROR</strong>: Spam detected', 'spam-blocker'));
+	public function honeypot_preprocess_comment( $commentdata ) {
+		$login_field = '';
+		if ( isset( $_POST['comment-form-area'] ) ) {
+			$login_field = sanitize_text_field( wp_unslash( $_POST['comment-form-area'] ) );
+		}
+
+		if ( strlen( $login_field ) > 0 ) {
+			wp_die( esc_html__( 'ERROR: Spam detected', 'spam-blocker' ) );
 		} else {
 			return $commentdata;
 		}
+
 	}
+
 }
